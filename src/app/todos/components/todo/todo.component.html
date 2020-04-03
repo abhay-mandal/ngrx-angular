@@ -1,0 +1,71 @@
+<div class="row" [ngClass]="{'bg-light': todo.completed}">
+  <div class="col-1">
+    <span class="label text-info" [ngClass]="{'text-muted': todo.completed}">#id</span>
+    <p [ngClass]="{'text-muted': todo.completed}">
+      {{todo.id}}
+    </p>
+  </div>
+
+  <div class="col-3">
+    <span class="label text-info" [ngClass]="{'text-muted': todo.completed}">#title</span>
+    <p [ngClass]="{'text-muted': todo.completed}" *ngIf="todo.id !== editable">
+      {{todo.title}}
+    </p>
+
+    <div class="input-group" *ngIf="todo.id === editable ">
+      <input class="form-control" id="todoName" [(ngModel)]="todo.todoName" name="todoName" />
+    </div>
+  </div>
+
+  <div class="col-5">
+    <span class="label text-info" [ngClass]="{'text-muted': todo.completed}">
+      #description:
+    </span>
+    <p [ngClass]="{'text-muted': todo.completed}" *ngIf="editable !== todo.id">
+      {{todo.todoDescription}}
+    </p>
+
+    <div class="input-group" *ngIf="editable === todo.id">
+      <textarea class="form-control" id="todoName" [(ngModel)]="todo.todoDescription" name="todoName">
+      </textarea>
+    </div>
+
+  </div>
+
+  <div class="col-2">
+    <span class="label text-success" *ngIf="todo.completed; else inProgress">
+      #done
+      <span class="fa fa-check"></span>
+    </span>
+    <ng-template #inProgress>
+      <span class="label text-primary">
+        #in progress
+        <span class="fa fa-spinner"></span>
+      </span>
+    </ng-template>
+
+    <input class="" type="checkbox" [checked]="todo.completed" (change)="changeState(todo)" />
+  </div>
+
+  <div class="col-1">
+    <span class="label text-info" [ngClass]="{'text-muted': todo.completed}">
+      #actions
+    </span>
+    <div class="btn-group btn-group-sm">
+      <button class="btn btn-sm btn-primary" [disabled]="todo.completed" *ngIf="editable !== todo.id"
+        (click)="editableTodo(todo.id)">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+      </button>
+
+      <button class="btn btn-sm btn-primary" *ngIf="editable == todo.id" (click)="editTodo(todo)">
+        <i class="fa fa-save" aria-hidden="true"></i>
+      </button>
+
+      <button class="btn btn-sm btn-danger" [disabled]="todo.completed" (click)="deleteTodo(todo.id)">
+        <i aria-hidden="true" class="fa fa-trash"></i>
+      </button>
+
+    </div>
+  </div>
+
+</div>
